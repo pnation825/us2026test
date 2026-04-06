@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNITE_SEOUL_2026.exe</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
+
+        body {
+            background-color: #0a0a0a;
+            color: #00ff41;
+            font-family: 'Fira Code', monospace;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        #terminal {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .error { color: #ff3e3e; font-weight: bold; }
+        .success { color: #00ff41; text-shadow: 0 0 5px #00ff41; }
+        .hidden { display: none; }
+
+        .input-line { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+        input {
+            background: transparent;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            padding: 5px 10px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        button {
+            background: #00ff41;
+            color: #0a0a0a;
+            border: none;
+            padding: 5px 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover { background: #00cc33; }
+
+        .glitch { animation: glitch 1s linear infinite; }
+        @keyframes glitch {
+            2%, 64% { transform: translate(2px, 0) skew(0deg); }
+            4%, 60% { transform: translate(-2px, 0) skew(0deg); }
+            62% { transform: translate(0, 0) skew(5deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div id="terminal">
+    <div id="log-container"></div>
+    
+    <div id="input-section" class="hidden">
+        <p class="error">>> CRITICAL: ENTER FRAGMENTS TO RESTORE SYSTEM</p>
+        <div class="input-line">
+            <input type="text" id="code1" placeholder="Fragment 01">
+            <input type="text" id="code2" placeholder="Fragment 02">
+            <input type="text" id="code3" placeholder="Fragment 03">
+            <button onclick="checkCodes()">EXECUTE</button>
+        </div>
+    </div>
+
+    <div id="success-section" class="hidden">
+        <h1 class="success glitch">>> SYSTEM RESTORED SUCCESSFULLY</h1>
+        <p>당신은 <span id="user-count" class="success">128</span>번째 복구자입니다.</p>
+        <p>---------------------------------------</p>
+        <p>UNITE SEOUL 2026 얼리버드 티켓 오픈!</p>
+        <p>DISCOUNT CODE: <strong style="font-size: 1.2em;">할인쿠폰 노출 영역</strong></p>
+        <button onclick="window.location.href='https://uniteseoul.co.kr/sub02/guide_regi_pay.html'">REGISTER NOW</button>
+    </div>
+</div>
+
+<script>
+    const logContainer = document.getElementById('log-container');
+    const logs = [
+        "UNITE_SEOUL_2026.exe 실행 중...",
+        "LOADING ASSET BUNDLE... [██████░░░░] 58%",
+        "ACCESSING CORE KERNEL...",
+        "ERROR: CORE FILE CORRUPTED",
+        "MISSING: /fragments/01 (Location: 판교 spot A)",
+        "MISSING: /fragments/02 (Location: 판교 spot B)",
+        "MISSING: /fragments/03 (Location: 판교 spot C)",
+        "SYSTEM HALTED. RECOVERY MODE REQUIRED."
+    ];
+
+    let lineIndex = 0;
+
+    function printLog() {
+        if (lineIndex < logs.length) {
+            const p = document.createElement('p');
+            if (logs[lineIndex].includes("ERROR") || logs[lineIndex].includes("MISSING")) {
+                p.className = "error";
+            }
+            p.innerText = ">> " + logs[lineIndex];
+            logContainer.appendChild(p);
+            lineIndex++;
+            setTimeout(printLog, 600); // 출력 속도 조절
+        } else {
+            document.getElementById('input-section').classList.remove('hidden');
+        }
+    }
+
+    function checkCodes() {
+        const c1 = document.getElementById('code1').value.toUpperCase();
+        const c2 = document.getElementById('code2').value.toUpperCase();
+        const c3 = document.getElementById('code3').value.toUpperCase();
+
+        if (c1 === "유나이트" && c2 === "서울" && c3 === "2026") {
+            document.getElementById('input-section').classList.add('hidden');
+            document.getElementById('success-section').classList.remove('hidden');
+            // 가상의 N번째 카운터 (실제는 DB 연동 필요)
+            document.getElementById('user-count').innerText = Math.floor(Math.random() * 500) + 1;
+        } else {
+            alert("ACCESS DENIED: INVALID FRAGMENTS");
+        }
+    }
+
+    window.onload = printLog;
+</script>
+
+</body>
+</html>
